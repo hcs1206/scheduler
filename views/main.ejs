@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <% include ./header.ejs %>
+</head>
+<body>
+<header>
+    <div class="wrapper">
+        <h1 class="title">Bose's scheduler</h1>
+        <% if (!userId) { %>
+        <script type="text/javascript">
+            initCalendar();
+        </script>
+        <form method="post" id="loginForm" style="float:right;margin: 10px 20px" action="/users/login">
+            <tr>
+                <td><input type="text" name="userId" placeholder="ID"></td>
+                <a href='#' data-toggle="modal" data-target="#joinModal" style="font-size:5px;color:white">회원 가입</a>
+                <br>
+                <td><input type="password" name="password" placeholder="password"></td>
+            </tr>
+            <input type="button" class="btn-sm btn-info" onclick="login();return false;" value="login">
+        </form>
+        <% } else { %>
+        <script type="text/javascript">
+            drawUserCalendar();
+        </script>
+        <form method="post" style="float:right;margin: 10px 20px" action="/users/logout">
+            <span style="color:white;"><%= userId %></span>
+            <input type="submit" value="logout">
+        </form>
+        <% } %>
+    </div>
+</header>
+<h2 style="text-align:center;margin-top:100px">누구의 것인가</h2>
+
+<div id='calendar'></div>
+
+<div id="joinModal" class="modal" tabindex="-1" style="margin-top:100px;" role="dialog">
+    <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Join</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" id="joinForm" action="/users">
+                    <div class="form-group">
+                        <label for="userId">ID:</label>
+                        <input type="text" class="form-control" name="userId">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password:</label>
+                        <input type="password" class="form-control" name="password">
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" class="form-control" name="name">
+                    </div>
+                    <div class="form-group">
+                        <label for="engName">English Name:</label>
+                        <input type="text" class="form-control" name="engName">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="join()">Insert</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="addEventModal" class="modal" tabindex="-1" style="margin-top:100px;" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Insert Todo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" id="addEventForm" action="/events">
+                    <div class="form-group">
+                        <label for="title">Title:</label>
+                        <input type="text" class="form-control" name="title">
+                    </div>
+                    <div class="form-group">
+                        <label for="desc">Description:</label>
+                        <input type="text" class="form-control" name="desc">
+                    </div>
+                    <div class="form-group">
+                        <label for="start">Start Date:</label>
+                        <input type="text" class="form-control" name="start">
+                    </div>
+                    <div class="form-group">
+                        <label for="end">End Date:</label>
+                        <input type="text" class="form-control" name="end">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="insertEvent()">Insert</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="eventModal" class="modal" tabindex="-1" role="dialog" style="margin-top:100px;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Todo Information</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="put" id="eventForm" action="/events">
+                    <input type="hidden" name="id" id="id">
+                    <div class="form-group">
+                        <label for="title">Title:</label>
+                        <input type="text" class="form-control" name="title" id="title">
+                    </div>
+                    <div class="form-group">
+                        <label for="desc">Description:</label>
+                        <input type="text" class="form-control" name="desc" id="desc">
+                    </div>
+                    <div class="form-group">
+                        <label for="start">Start Date:</label>
+                        <input type="text" class="form-control" name="start" id="start">
+                    </div>
+                    <div class="form-group">
+                        <label for="end">End Date:</label>
+                        <input type="text" class="form-control" name="end" id="end">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="updateEvent()">Save changes</button>
+                <button type="button" class="btn btn-danger" onclick="deleteEvent()">Delete</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

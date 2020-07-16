@@ -1,0 +1,15 @@
+/*header*/
+header{
+    height: 75px;
+    background-color:#222222;
+    border: 1px solid #253342;
+    position: fixed;
+    width:100%;
+    z-index:9999;
+    top:0;
+}
+
+h1{
+    float:left;
+    color:#F5FFFA;
+}
